@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Verizon Session Feedback</title>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+    <style>
+        body {
+            padding-top: 60px;
+        }
+    </style>
+    <script>
+        $(function() {
+            $("#feedback_form").submit(function(event) {
+                event.preventDefault();
+
+                var errorMessage = $("#errorMessage");
+                var error = $("#error");
+                error.hide();
+
+                $("#message").hide();
+
+                var name = $("#name").val();
+                var comments = $("#comments").val();
+                var email = $("#email").val();
+                var radio_experience = '';
+                var experience = document.getElementsByName('experience'); 
+              
+            for(i = 0; i < experience.length; i++) { 
+                if(experience[i].checked) 
+                radio_experience= experience[i].value; 
+            } 
+                console.log(radio_experience);
+
+                if (name.length == 0 || comments.length == 0 || email.length == 0 || radio_experience.length == 0) {
+                    errorMessage.text("All of the fields are required.");
+                    error.show();
+                }
+                else {
+                    $.ajax({
+                        url: event.target.action,
+                        method: event.target.method,
+                        timeout:80000,
+                        data: JSON.stringify({
+                            name: name,
+                            comments: comments,
+                            email: email,
+                            radio_experience: radio_experience
+                        }),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function(data) {
+                            $("#name").val("");
+                            $("#comments").val("");
+                            $("#email").val("");
+                            $("#radio_experience").val("");
+                            $("#messageMessage").text("Wow. Thanks for your valuable Feedback!");
+                            $("#message").show();
+                        },
+                        error: function(err) {
+                            errorMessage.text(err.responseJSON.error);
+                            error.show();
+                        }
+                    })
+                }
+            });
+        });
+
+    </script>
+</head>
+<body>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+                
+            <div class="navbar-header">
+                   
+                <a href="/">
+                    <img src="img/logo.png" alt="Create Connection" title="" width="120px;" />
+                </a>
+                <a style="color: #eee1e1" href="/">
+                    Session Feedback by Heroku APP</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+            <div class="col-md-6 col-md-offset-3 form-container">
+                    <h2>Feedback</h2>
+                    <p>
+                    Please provide your feedback below:
+                    </p>
+                    <form role="form" method="post" id="feedback_form" action="/create">
+                    <div class="row">
+                    <div class="col-sm-12 form-group">
+                    <label>How do you rate your session experience?</label>
+                    <p>
+                    <label class="radio-inline">
+                    <input type="radio" name="experience" id="radio_experience" value="Bad" >
+                    Bad
+                    </label>
+                    
+                    <label class="radio-inline">
+                    <input type="radio" name="experience" id="radio_experience" value="Average" >
+                    Average
+                    </label>
+                    
+                    <label class="radio-inline">
+                    <input type="radio" name="experience" id="radio_experience" value="Good" >
+                    Good
+                    </label>
+                    <label class="radio-inline">
+                    <input type="radio" name="experience" id="radio_experience" value="Very Good" >
+                    Very Good
+                    </label>
+                    
+                    </p>
+                    </div>
+                    </div>
+                    <div class="row">
+                    <div class="col-sm-12 form-group">
+                    <label for="comments">
+                    Comments:</label>
+                    <textarea class="form-control" type="textarea" name="comments" id="comments" placeholder="Your Comments" maxlength="6000" rows="7"></textarea>
+                    </div>
+                    </div>
+                    <div class="row">
+                    <div class="col-sm-6 form-group">
+                    <label for="name">
+                    Your Name:</label>
+                    <input type="text" class="form-control" id="name" name="name" required>
+                    </div>
+                    <div class="col-sm-6 form-group">
+                    <label for="email">
+                    Email:</label>
+                    <input type="email" class="form-control" id="email" name="email" required>
+                    </div>
+                    </div>
+                    <div class="row">
+                    <div class="col-sm-12 form-group">
+                    <button type="submit" class="btn btn-lg btn-warning btn-block" id="submit" >Submit </button>
+                    </div>
+                    </div>
+                  <!--<a href="img/Project and Team members details.xlsx" >Download here</a><br/>
+                  <a href="img/Brillio Meeting Content.pptx" >SFDC & Heroku here</a><br/>-->
+                  <a href="img/New folder" >Road Map Utility</a>
+                  <a href="img/New folder/_Verizon Project & Strategy Templates .pptx" >Road Map Utility</a>
+                  <a href="img/New folder/SF Consumer Resources Details.xlsx" >Road Map Utility</a>
+                  <a href="img/New folder/Final 2021_0710 VzC 3G Migration Executive Daily Status.pptx" >Road Map Utility</a>
+                    </form>
+                    <div id="message" class="alert alert-info" role="alert" style="display: none;">
+                        <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                        <span id="messageMessage"></span>
+                    </div>
+                    <div id="error" class="alert alert-danger" role="alert" style="display: none;">
+                        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                        <span class="sr-only">Error:</span>
+                        <span id="errorMessage"></span>
+                    </div>
+                    </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,23 @@
+{
+  "name": "feedback_app",
+  "version": "1.0.0",
+  "description": "This for feedback during Heroku session.",
+  "main": "start",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "pg": "^4.5.7"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "node server.js",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://gitlab.verizon.com/SUMAUM3/herokugitlansession.git"
+  },
+  "author": "Umakant Suman",
+  "license": "ISC"
+}

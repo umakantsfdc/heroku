@@ -1,0 +1,11 @@
+heroku:
+ stage: deploy
+ tags:
+ - heroku 
+ - node 
+ - js
+ only:
+ - master
+ script:
+ - git remote set-url heroku https://heroku:$HEROKU_API_KEY@git.heroku.com/$APP_NAME.git
+ - git push -f heroku HEAD:refs/heads/master

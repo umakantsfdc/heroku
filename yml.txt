@@ -1,0 +1,18 @@
+variables:
+  HTTP_PROXY: "http://tpawsa.verizon.com:80"
+  HTTPS_PROXY: "http://tpawsa.verizon.com:80"
+  http_proxy: "http://tpawsa.verizon.com:80"
+  https_proxy: "http://tpawsa.verizon.com:80"
+  NO_PROXY: "localhost,.verizon.com,169.254.169.254"
+heroku:
+ stage: deploy
+ tags:
+ - heroku
+ - deploye
+ - Gitlabmigration
+ only:
+ - master
+ script:
+ - git remote set-url heroku https://heroku:$HEROKU_API_KEY@git.heroku.com/$APP_NAME.git
+
+ - git push -f heroku HEAD:refs/heads/master
